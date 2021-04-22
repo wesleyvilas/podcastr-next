@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { GetStaticProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,6 +11,7 @@ import { api } from "../services/api";
 import { convertDurationTimeString } from "../utils/convertDurationTimeString";
 
 import styles from "./home.module.scss";
+import { PlayerContext } from "../contexts/PlayerContext";
 
 type Episode = {
   id: string;
@@ -29,10 +31,11 @@ type HomeProps = {
 };
 
 export default function Home({ lattesEpisodes, allEpisodes }: HomeProps) {
+  const { play } = useContext(PlayerContext);
   return (
     <div className={styles.homePage}>
       <section className={styles.lattesEpisodes}>
-        <h2>ùltimos lançamentos</h2>
+        <h2>ùltimos lançamentos </h2>
 
         <ul>
           {lattesEpisodes.map((episode) => {
@@ -55,7 +58,7 @@ export default function Home({ lattesEpisodes, allEpisodes }: HomeProps) {
                   <span>{episode.durationAsString}</span>
                 </div>
 
-                <button>
+                <button type="button" onClick={() => play(episode)}>
                   <img src="./play-green.svg" alt="Tocar episode" />
                 </button>
               </li>
